@@ -21,6 +21,9 @@ public class HandlerBackMyWorldReq extends PacketHandler {
 		if (prevScene >= 2000 && prevScene <= 2006) {
 			prevScene = 3;
 		}
+		if(prevScene >= 2200 && prevScene <= 2206){
+			prevScene = 3;
+		}
 
 		session.getPlayer().getWorld().transferPlayerToScene(
 				session.getPlayer(),
