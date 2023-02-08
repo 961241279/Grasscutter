@@ -69,8 +69,11 @@ public class GameHome {
             if (defaultItem != null) {
                 Grasscutter.getLogger().info("Set player {} home {} to initial setting", ownerUid, sceneId);
                 return HomeSceneItem.parseFrom(defaultItem, sceneId);
+            } else {
+                // Realm res missing bricks account, use default realm data to allow main house
+                defaultItem = GameData.getHomeworldDefaultSaveData().get(2001);
+                return HomeSceneItem.parseFrom(defaultItem, sceneId);
             }
-            return null;
         });
     }
 
@@ -83,6 +86,11 @@ public class GameHome {
         player.getSession().send(new PacketFurnitureCurModuleArrangeCountNotify());
         player.getSession().send(new PacketHomeMarkPointNotify(player));
         player.getSession().send(new PacketHomeAllUnlockedBgmIdListNotify(player));
+    }
+
+    // Tell the client the reward is claimed or realm unlocked
+    public void onClaimReward(Player player){
+        player.getSession().send(new PacketPlayerHomeCompInfoNotify(player));
     }
 
     public Player getPlayer() {
